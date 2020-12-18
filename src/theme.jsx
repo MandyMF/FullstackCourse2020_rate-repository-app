@@ -5,6 +5,8 @@ const theme = {
     primary: '#0366d6',
     appBar: '#24292e',
     tabLabel: 'white',
+    mainBackgroundColor: '#e1e4e8',
+    listItemBackgroundColor: 'white',
   },
   fontSizes: {
     body: 14,

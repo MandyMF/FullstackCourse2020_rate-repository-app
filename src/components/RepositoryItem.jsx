@@ -1,17 +1,22 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Text from './Text';
+import theme from '../theme';
+import ItemDescriptionInfo from './ItemDescriptionInfo';
+import ItemScoreInfo from './ItemScoreInfo';
+
+const styles = StyleSheet.create({
+  content: {
+    backgroundColor: theme.colors.listItemBackgroundColor,
+    padding: 15,
+  },
+});
 
 const RepositoryItem = ({ item }) => {
   return (
-    <View>
-      <Text>Full Name: {item.fullName} </Text>
-      <Text>Description: {item.description}</Text>
-      <Text>Languaje: {item.language}</Text>
-      <Text>Stars: {item.stargazersCount}</Text>
-      <Text>Forks: {item.forksCount}</Text>
-      <Text>Reviews: {item.reviewCount}</Text>
-      <Text>Rating: {item.ratingAverage}</Text>
+    <View style={styles.content}>
+      <ItemDescriptionInfo item={item} />
+      <ItemScoreInfo item={item} />
     </View>
   );
 };
