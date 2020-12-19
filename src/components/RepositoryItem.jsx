@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Text from './Text';
 import theme from '../theme';
 import ItemDescriptionInfo from './ItemDescriptionInfo';
 import ItemScoreInfo from './ItemScoreInfo';

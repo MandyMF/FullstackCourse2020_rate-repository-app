@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flexGrow: 1,
+    paddingRight: 10
   },
   textContainer: {
     flexGrow: 1,
