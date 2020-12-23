@@ -14,3 +14,13 @@ export const GET_REPOSITORIES = gql`
 
   ${BasicRepository}
 `;
+
+export const AUTHORIZED_USER = gql`
+  query authorizedUser
+  {
+    authorizedUser {
+      id
+      username
+    }
+  }
+`;
