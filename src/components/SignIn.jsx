@@ -40,6 +40,22 @@ const styles = StyleSheet.create({
 
 });
 
+export const SignInContainer = ({ onSubmit }) => {
+  return (
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+      {({ handleSubmit }) =>
+        <View style={styles.container}>
+          <FormikTextInput testID='usernameField' style={styles.textInput} name='username' placeholder='Username' />
+          <FormikTextInput testID='passwordField' style={styles.textInput} secureTextEntry name='password' placeholder='Password' />
+          <TouchableWithoutFeedback testID='submitButton' onPress={handleSubmit}>
+            <Text style={styles.button} fontWeight='bold' fontSize='textSecondary'>Sign in</Text>
+          </TouchableWithoutFeedback>
+        </View>
+      }
+    </Formik>
+  );
+};
+
 const SignIn = () => {
   const [signIn] = useSignIn();
   const history = useHistory();
@@ -48,8 +64,7 @@ const SignIn = () => {
     const { username, password } = values;
 
     try {
-      const { data } = await signIn({ username, password });
-      console.log(data);
+      await signIn({ username, password });
       history.push("/");
 
     } catch (e) {
@@ -58,17 +73,7 @@ const SignIn = () => {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-      {({ handleSubmit }) =>
-        <View style={styles.container}>
-          <FormikTextInput style={styles.textInput} name='username' placeholder='Username' />
-          <FormikTextInput style={styles.textInput} secureTextEntry name='password' placeholder='Password' />
-          <TouchableWithoutFeedback onPress={handleSubmit}>
-            <Text style={styles.button} fontWeight='bold' fontSize='textSecondary'>Sign in</Text>
-          </TouchableWithoutFeedback>
-        </View>
-      }
-    </Formik>
+    <SignInContainer onSubmit={onSubmit} />
   );
 };
 
