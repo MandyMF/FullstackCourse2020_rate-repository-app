@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const Count = ({ label, value }) => {
+const Count = ({ label, value, testID }) => {
   return (
     <View style={styles.content}>
-      <Text fontWeight='bold' fontSize='subheading'> {value >= 1000 ? (Math.round(value / 100) / 10) + 'k' : value}</Text>
+      <Text testID={testID} fontWeight='bold' fontSize='subheading'> {value >= 1000 ? (Math.round(value / 100) / 10) + 'k' : value}</Text>
       <Text color='textSecondary'>{label}</Text>
     </View>
   );

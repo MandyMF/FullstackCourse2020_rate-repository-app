@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
 const ItemScoreInfo = ({ item }) => {
   return (
     <View style={styles.content}>
-      <Count label='Stars' value={item.stargazersCount} />
-      <Count label='Forks' value={item.forksCount} />
-      <Count label='Reviews' value={item.reviewCount} />
-      <Count label='Rating' value={item.ratingAverage} />
+      <Count testID='itemStarsCount' label='Stars' value={item.stargazersCount} />
+      <Count testID='itemForksCount' label='Forks' value={item.forksCount} />
+      <Count testID='itemReviewsCount' label='Reviews' value={item.reviewCount} />
+      <Count testID='itemRatingCount' label='Rating' value={item.ratingAverage} />
     </View>
   );
 };

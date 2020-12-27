@@ -50,10 +50,10 @@ const ItemDescriptionInfo = ({ item }) => {
         }} />
       </View>
       <View style={styles.textContainer}>
-        <Text fontSize='subheading' fontWeight='bold'>{item.fullName}</Text>
-        <Text color='textSecondary'>{item.description}</Text>
+        <Text testID='itemFullName' fontSize='subheading' fontWeight='bold'>{item.fullName}</Text>
+        <Text testID='itemDescription' color='textSecondary'>{item.description}</Text>
         <View style={styles.tagsContainer}>
-          <Text style={styles.tag}>{item.language}</Text>
+          <Text testID='itemLanguage' style={styles.tag}>{item.language}</Text>
         </View>
       </View>
     </View>
