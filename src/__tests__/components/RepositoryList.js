@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
-import { render, fireEvent } from '@testing-library/react-native';
+import React from 'react';
+import { render, within } from '@testing-library/react-native';
 import {RepositoryListContainer} from '../../components/RepositoryList';
 
 describe('RepositoryList', () => {
   describe('RepositoryListContainer', () => {
-    it.only('renders repository information correctly', () => {
+    it('renders repository information correctly', () => {
       const repositories = {
         pageInfo: {
           totalCount: 8,
@@ -51,13 +50,29 @@ describe('RepositoryList', () => {
 
       const countValue = (value) => value >= 1000 ? (Math.round(value / 100) / 10) + 'k' : value;
 
-      const {debug, getAllByTestId} = render(<RepositoryListContainer repositories={repositories} />);
+      const {getAllByTestId} = render(<RepositoryListContainer repositories={repositories} />);
 
       //debug();
       const repositoryListItems = getAllByTestId('repositoryListItem');
 
       expect(repositoryListItems).toHaveLength(2);
 
+      //expect(within(repositoryListItems[0]).getByTestId('itemFullName')).toHaveTextContent(repositories.edges[0].node.fullName);
+
+      let n = 0;
+
+      for(const component of repositoryListItems){
+        expect(within(component).getByTestId('itemFullName')).toHaveTextContent(repositories.edges[n].node.fullName);
+        expect(within(component).getByTestId('itemDescription')).toHaveTextContent(repositories.edges[n].node.description);
+        expect(within(component).getByTestId('itemLanguage')).toHaveTextContent(repositories.edges[n].node.language);
+        expect(within(component).getByTestId('itemStarsCount')).toHaveTextContent(countValue(repositories.edges[n].node.stargazersCount));
+        expect(within(component).getByTestId('itemForksCount')).toHaveTextContent(countValue(repositories.edges[n].node.forksCount));
+        expect(within(component).getByTestId('itemReviewsCount')).toHaveTextContent(countValue(repositories.edges[n].node.reviewCount));
+        expect(within(component).getByTestId('itemRatingCount')).toHaveTextContent(countValue(repositories.edges[n].node.ratingAverage));
+
+        n++;
+      }
+      /*
       const itemFullNameList = getAllByTestId('itemFullName');
       const itemDescriptionList = getAllByTestId('itemDescription');
       const itemLanguageList = getAllByTestId('itemLanguage');
@@ -65,6 +80,7 @@ describe('RepositoryList', () => {
       const itemForksCountList = getAllByTestId('itemForksCount');
       const itemReviewsCountList = getAllByTestId('itemReviewsCount');
       const itemRatingCountList = getAllByTestId('itemRatingCount');
+
 
       for(const n in [0,1])
       {
@@ -75,8 +91,7 @@ describe('RepositoryList', () => {
         expect(itemForksCountList[n]).toHaveTextContent(countValue(repositories.edges[n].node.forksCount));
         expect(itemReviewsCountList[n]).toHaveTextContent(countValue(repositories.edges[n].node.reviewCount));
         expect(itemRatingCountList[n]).toHaveTextContent(countValue(repositories.edges[n].node.ratingAverage));
-      }
-      // Add your test code here
+      }*/
     });
   });
 });
