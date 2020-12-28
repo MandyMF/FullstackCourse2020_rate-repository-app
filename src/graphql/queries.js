@@ -24,3 +24,13 @@ export const AUTHORIZED_USER = gql`
     }
   }
 `;
+
+export const GET_REPOSITORY_BY_ID = gql`
+  query GetRepositoryById($id: ID!) {
+    repository(id: $id) {
+      ...BasicRepository
+    }
+  }
+
+  ${BasicRepository}
+`;

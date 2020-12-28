@@ -11,5 +11,6 @@ export const BasicRepository= gql`
     ratingAverage
     reviewCount
     ownerAvatarUrl
+    url
   }
 `;
