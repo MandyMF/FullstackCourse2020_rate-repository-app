@@ -3,9 +3,6 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import theme from '../theme';
 import ItemDescriptionInfo from './ItemDescriptionInfo';
 import ItemScoreInfo from './ItemScoreInfo';
-import { useQuery } from '@apollo/react-hooks';
-import { GET_REPOSITORY_BY_ID } from '../graphql/queries';
-import { useParams } from 'react-router-native';
 import * as Linking from 'expo-linking';
 
 
@@ -31,18 +28,17 @@ const styles = StyleSheet.create({
   }
 });
 
-const RepositoryInfo = () => {
-  const { id } = useParams();
-  const { data, loading } = useQuery(GET_REPOSITORY_BY_ID, { variables: { id: id } });
+const RepositoryInfo = ({ repository }) => {
+
 
   const onPressHandler = () => {
-    Linking.openURL(data?.repository.url);
+    Linking.openURL(repository?.url);
   };
 
   return (
-    !loading && <View testID='repositoryListItem' style={styles.content}>
-      <ItemDescriptionInfo item={data?.repository} />
-      <ItemScoreInfo item={data?.repository} />
+    <View testID='repositoryListItem' style={styles.content}>
+      <ItemDescriptionInfo item={repository} />
+      <ItemScoreInfo item={repository} />
       <TouchableOpacity onPress={onPressHandler}>
         <View style={styles.tagsContainer}>
           <Text testID='itemLanguage' style={styles.tag}>Open in GitHub</Text>

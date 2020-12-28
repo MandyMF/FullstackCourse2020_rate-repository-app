@@ -1,5 +1,5 @@
 import { gql } from 'apollo-boost';
-import {BasicRepository} from './fragments';
+import {BasicRepository, ExtendedRepository} from './fragments';
 
 export const GET_REPOSITORIES = gql`
   query GetRepositories {
@@ -28,9 +28,9 @@ export const AUTHORIZED_USER = gql`
 export const GET_REPOSITORY_BY_ID = gql`
   query GetRepositoryById($id: ID!) {
     repository(id: $id) {
-      ...BasicRepository
+      ...ExtendedRepository
     }
   }
 
-  ${BasicRepository}
+  ${ExtendedRepository}
 `;

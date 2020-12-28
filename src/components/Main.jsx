@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
 import SignIn from './SignIn';
-import RepositoryInfo from './RepositoryInfo';
+import SingleRepository from './SingleRepository';
 import { Route, Switch, Redirect } from 'react-router-native';
 
 const styles = StyleSheet.create({
@@ -26,7 +26,7 @@ const Main = () => {
           <SignIn />
         </Route>
         <Route path="/:id">
-          <RepositoryInfo />
+          <SingleRepository />
         </Route>
         <Redirect to="/" />
       </Switch>
