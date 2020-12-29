@@ -1,45 +1,46 @@
 import React from 'react';
-import { StyleSheet, FlatList } from 'react-native';
-import theme from '../theme';
+import { FlatList, Alert } from 'react-native';
 import MyReviewItem from '../components/MyReviewItem';
-
+import { useHistory } from 'react-router-native';
+import { useMutation } from '@apollo/react-hooks';
+import { DELETE_REVIEW } from '../graphql/mutations';
 import ItemSeparator from './ItemSeparator';
 import useAuthorizedUser from '../hooks/useAuthorizedUser';
 
-const styles = StyleSheet.create({
-  content: {
-    backgroundColor: theme.colors.listItemBackgroundColor,
-    padding: 15,
-  },
-  tagsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingTop: 15
-  },
-  tag: {
-    color: theme.colors.tabLabel,
-    backgroundColor: theme.colors.primary,
-    padding: 15,
-    borderRadius: 5,
-    flexGrow: 1,
-    fontWeight: 'bold',
-    fontSize: theme.fontSizes.subheading,
-    textAlign: 'center',
-  }
-});
-
-/*
-const RepositoryInfo = ({ repository }) => {
-  // Repository's information implemented in the previous exercise
-};
-
-const ReviewItem = ({ review }) => {
-  // Single review item
-};
-*/
-
 const MyReviews = () => {
-  const { authorizedUser, fetchMore } = useAuthorizedUser({ includeReviews: true, first: 6 });
+  const { authorizedUser, fetchMore, refetch } = useAuthorizedUser({ includeReviews: true, first: 6 });
+  const history = useHistory();
+
+  const handleViewRepository = (repositoryId) => {
+    history.push(`/${repositoryId}`);
+  };
+
+  const [mutate] = useMutation(DELETE_REVIEW);
+
+
+  const handleDeleteReview = (id) => {
+    Alert.alert(
+      "Delete review",
+      "Are you sure you want to delete this review?",
+      [
+        {
+          text: "CANCEL",
+          onPress: () => {
+            //do nothing
+          },
+          style: "cancel"
+        },
+        {
+          text: "DELETE",
+          onPress: async () => {
+            await mutate({ variables: { id } });
+            refetch();
+          },
+        }
+      ],
+      { cancelable: false }
+    );
+  };
 
   const reviews = authorizedUser ?
     authorizedUser.reviews.edges.map(edge => edge.node)
@@ -52,7 +53,9 @@ const MyReviews = () => {
   return (
     <FlatList
       data={reviews}
-      renderItem={({ item }) => <MyReviewItem review={item} />}
+      renderItem={({ item }) => <MyReviewItem review={item}
+        handleDeleteReview={() => handleDeleteReview(item.id)}
+        handleViewRepository={() => handleViewRepository(item.repositoryId)} />}
       keyExtractor={({ id }) => id}
       ItemSeparatorComponent={ItemSeparator}
       onEndReached={onEndReach}

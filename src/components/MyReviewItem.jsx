@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Text from './Text';
 import theme from '../theme';
 import { format } from 'date-fns';
@@ -49,11 +49,39 @@ const styles = StyleSheet.create({
   },
   date: {
     paddingBottom: 6
+  },
+  buttonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingTop: 15,
+    justifyContent: 'space-evenly'
+  },
+  buttonContent: {
+    flexGrow: 1
+  },
+  button: {
+    color: theme.colors.tabLabel,
+    padding: 15,
+    borderRadius: 5,
+    flexGrow: 1,
+    fontWeight: 'bold',
+    fontSize: theme.fontSizes.subheading,
+    textAlign: 'center',
+  },
+  buttonLink: {
+    marginRight: 10,
+    backgroundColor: theme.colors.primary,
+  },
+  buttonAlert: {
+    marginLeft: 10,
+    backgroundColor: theme.colors.error,
   }
+
 
 });
 
-const MyReviewItem = ({ review }) => {
+const MyReviewItem = ({ review, handleDeleteReview, handleViewRepository }) => {
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.content}>
@@ -67,6 +95,15 @@ const MyReviewItem = ({ review }) => {
           <Text style={styles.date} color='textSecondary'>{format(new Date(review.createdAt), 'dd.MM.yyyy')}</Text>
           <Text>{review.text}</Text>
         </View>
+      </View>
+
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.buttonContent} onPress={handleViewRepository}>
+          <Text testID='itemLanguage' style={[styles.button, styles.buttonLink]}>View repository</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonContent} onPress={handleDeleteReview}>
+          <Text testID='itemLanguage' style={[styles.button, styles.buttonAlert]}>Delete review</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
