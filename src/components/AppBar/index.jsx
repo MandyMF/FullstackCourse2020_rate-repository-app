@@ -34,7 +34,10 @@ const AppBar = () => {
         <AppBarTab text='Repositories' route='/' />
 
         {!data?.authorizedUser ?
-          <AppBarTab text='Sign in' route='/signIn' />
+          <>
+            <AppBarTab text='Sign in' route='/signIn' />
+            <AppBarTab text='Sign up' route='/signUp' />
+          </>
           :
           <>
             <AppBarTab text='Create a review' route='/review' />
