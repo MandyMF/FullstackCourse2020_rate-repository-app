@@ -43,7 +43,7 @@ const ReviewItem = ({ review }) => {
 
 const SingleRepository = () => {
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_REPOSITORY_BY_ID, { variables: { id: id } });
+  const { data, loading } = useQuery(GET_REPOSITORY_BY_ID, { fetchPolicy: 'cache-and-network', variables: { id: id } });
 
   const reviews = !loading
     ? data?.repository.reviews.edges.map(edge => edge.node)

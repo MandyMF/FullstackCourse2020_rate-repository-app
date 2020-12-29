@@ -35,7 +35,11 @@ const AppBar = () => {
 
         {!data?.authorizedUser ?
           <AppBarTab text='Sign in' route='/signIn' />
-          : <AppBarActionTab text='Sign Out' onPressHandler={onPressHandler}></AppBarActionTab>
+          :
+          <>
+            <AppBarTab text='Create a review' route='/review' />
+            <AppBarActionTab text='Sign Out' onPressHandler={onPressHandler}></AppBarActionTab>
+          </>
         }
       </ScrollView>
     </View>
