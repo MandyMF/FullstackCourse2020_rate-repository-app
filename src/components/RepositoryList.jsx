@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export const RepositoryListContainer = ({ repositories, setOrderCriteria, searchKeyword, setSearchKeyword }) => {
+export const RepositoryListContainer = ({ repositories, onEndReach, setOrderCriteria, searchKeyword, setSearchKeyword }) => {
 
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
@@ -64,6 +64,8 @@ export const RepositoryListContainer = ({ repositories, setOrderCriteria, search
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={RepositoryItem}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };
@@ -72,10 +74,15 @@ const RepositoryList = () => {
   const [orderCriteria, setOrderCriteria] = useState({ orderBy: 'CREATED_AT', orderDirection: 'DESC' });
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchKeywordDebounced] = useDebounce(searchKeyword, 500);
-  const { repositories } = useRepositories(orderCriteria, searchKeywordDebounced);
+  const { repositories, fetchMore } = useRepositories({ ...orderCriteria, searchKeyword: searchKeywordDebounced, first: 8 });
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return <RepositoryListContainer
     repositories={repositories}
+    onEndReach={onEndReach}
     setOrderCriteria={setOrderCriteria}
     orderCriteria={orderCriteria}
     searchKeyword={searchKeyword}

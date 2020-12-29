@@ -8,6 +8,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { GET_REPOSITORY_BY_ID } from '../graphql/queries';
 import { useParams } from 'react-router-native';
 import ItemSeparator from './ItemSeparator';
+import useRepository from '../hooks/useRepository';
 
 const styles = StyleSheet.create({
   content: {
@@ -43,20 +44,27 @@ const ReviewItem = ({ review }) => {
 
 const SingleRepository = () => {
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_REPOSITORY_BY_ID, { fetchPolicy: 'cache-and-network', variables: { id: id } });
+  const { repository, fetchMore } = useRepository({ id: id, first: 8 });
 
-  const reviews = !loading
-    ? data?.repository.reviews.edges.map(edge => edge.node)
+  const reviews = repository ?
+    repository.reviews.edges.map(edge => edge.node)
     : [];
 
+  const onEndReach = () => {
+    fetchMore();
+  };
+
   return (
-    !loading && <FlatList
+    <FlatList
       data={reviews}
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={({ id }) => id}
-      ListHeaderComponent={() => <><RepositoryInfo repository={data?.repository}
-      /><ItemSeparator /></>}
+      ListHeaderComponent={() => <>
+        {repository && <RepositoryInfo repository={repository} />}
+        <ItemSeparator /></>}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };
