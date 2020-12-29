@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Text from '../Text';
-import theme from '../../theme';
+import Text from './Text';
+import theme from '../theme';
 import { format } from 'date-fns';
 
 const styles = StyleSheet.create({
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
 });
 
-const ReviewItem = ({ review }) => {
+const MyReviewItem = ({ review }) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.content}>
@@ -63,7 +63,7 @@ const ReviewItem = ({ review }) => {
           </View>
         </View>
         <View style={styles.textContainer}>
-          <Text fontSize='subheading' fontWeight='bold'>{review.user.username}</Text>
+          <Text fontSize='subheading' fontWeight='bold'>{review.repositoryId}</Text>
           <Text style={styles.date} color='textSecondary'>{format(new Date(review.createdAt), 'dd.MM.yyyy')}</Text>
           <Text>{review.text}</Text>
         </View>
@@ -72,4 +72,4 @@ const ReviewItem = ({ review }) => {
   );
 };
 
-export default ReviewItem;
+export default MyReviewItem;

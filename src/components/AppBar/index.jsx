@@ -41,6 +41,7 @@ const AppBar = () => {
           :
           <>
             <AppBarTab text='Create a review' route='/review' />
+            <AppBarTab text='My reviews' route='/myReviews' />
             <AppBarActionTab text='Sign Out' onPressHandler={onPressHandler}></AppBarActionTab>
           </>
         }

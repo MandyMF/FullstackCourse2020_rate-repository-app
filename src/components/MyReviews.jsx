@@ -1,12 +1,10 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import theme from '../theme';
-import RepositoryInfo from '../components/RepositoryInfo';
-import ReviewItem from '../components/ReviewItem';
+import MyReviewItem from '../components/MyReviewItem';
 
-import { useParams } from 'react-router-native';
 import ItemSeparator from './ItemSeparator';
-import useRepository from '../hooks/useRepository';
+import useAuthorizedUser from '../hooks/useAuthorizedUser';
 
 const styles = StyleSheet.create({
   content: {
@@ -40,12 +38,11 @@ const ReviewItem = ({ review }) => {
 };
 */
 
-const SingleRepository = () => {
-  const { id } = useParams();
-  const { repository, fetchMore } = useRepository({ id: id, first: 8 });
+const MyReviews = () => {
+  const { authorizedUser, fetchMore } = useAuthorizedUser({ includeReviews: true, first: 6 });
 
-  const reviews = repository ?
-    repository.reviews.edges.map(edge => edge.node)
+  const reviews = authorizedUser ?
+    authorizedUser.reviews.edges.map(edge => edge.node)
     : [];
 
   const onEndReach = () => {
@@ -55,16 +52,13 @@ const SingleRepository = () => {
   return (
     <FlatList
       data={reviews}
-      renderItem={({ item }) => <ReviewItem review={item} />}
+      renderItem={({ item }) => <MyReviewItem review={item} />}
       keyExtractor={({ id }) => id}
-      ListHeaderComponent={() => <>
-        {repository && <RepositoryInfo repository={repository} />}
-        <ItemSeparator /></>}
       ItemSeparatorComponent={ItemSeparator}
       onEndReached={onEndReach}
-      onEndReachedThreshold={0.5}
+      onEndReachedThreshold={0.1}
     />
   );
 };
 
-export default SingleRepository;
+export default MyReviews;

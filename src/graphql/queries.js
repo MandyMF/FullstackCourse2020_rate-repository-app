@@ -1,5 +1,5 @@
 import { gql } from 'apollo-boost';
-import {BasicRepository, ExtendedRepository} from './fragments';
+import {BasicRepository} from './fragments';
 
 export const GET_REPOSITORIES = gql`
   query GetRepositories ($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword: String, $after: String, $first: Int) {
@@ -23,11 +23,33 @@ export const GET_REPOSITORIES = gql`
 `;
 
 export const AUTHORIZED_USER = gql`
-  query authorizedUser
+  query authorizedUser ($includeReviews: Boolean = false, $first: Int, $after: String)
   {
     authorizedUser {
       id
       username
+      reviews( first: $first, after: $after)  @include(if: $includeReviews){
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            repositoryId
+            user {
+              id
+              username
+            }
+          }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          totalCount
+          hasNextPage
+        }
+      }
     }
   }
 `;
